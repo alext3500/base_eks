@@ -22,6 +22,12 @@ variable "eks_lb_role_name" {
   description = "EKS cluster role name"
 }
 
+variable "eks_efs_role_name" {
+  type        = string
+  default     = "role-eks-efs-ctrl"
+  description = "EKS cluster EFS role name"
+}
+
 variable "eks_username_ro" {
   type        = string
   default     = "eks-ro"

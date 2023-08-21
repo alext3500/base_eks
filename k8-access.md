@@ -9,6 +9,8 @@ $ terraform import kubernetes_config_map_v1.aws_auth kube-system/aws-auth
 Update aws-auth with kubernetes
 
 ```
+$ aws sts get-caller-identity --profile eks_rw
+$ kubectl -n kube-system  describe configmap aws-auth
 $ kubectl -n kube-system  edit configmap aws-auth
 
 apiVersion: v1
@@ -38,3 +40,21 @@ Test configurations using profiles
 ```
 $ aws eks update-kubeconfig --region us-east-1 --name test-cluster
 ```
+
+$ aws sts get-caller-identity
+$ aws sts assume-role --duration-seconds 28800 --role-arn "arn:aws:iam::ACCOUNT-ID:role/my-iam-role" --role-session-name my-role-session
+
+
+
+
+$ aws ecr get-login-password --region us-east-1 --profile admin | docker login --username AWS --password-stdin 602401143452.dkr.ecr.us-east-1.amazonaws.com
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=test-cluster \
+  --set serviceAccount.create=true \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  --set image.repository=602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller
+
+
+
